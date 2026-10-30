@@ -1,0 +1,37 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Korisnik
+
+@{
+    ViewData["Title"] = "Moj Profil";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h2 class="fw-bold text-dark mb-4">👤 Profil Korisnika</h2>
+
+            <div class="mb-4">
+                @if (!string.IsNullOrEmpty(Model.ProfilnaSlikaBase64))
+                {
+                    <img src="data:image/jpeg;base64,@Model.ProfilnaSlikaBase64" class="rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;" alt="Profilna slika" />
+                }
+                else
+                {
+                    <img src="https://via.placeholder.com/150" class="rounded-circle shadow" alt="Default slika" />
+                }
+            </div>
+
+            <h4 class="fw-bold">@Model.Ime @Model.Prezime</h4>
+            <p class="text-muted">@Model.Email | <span class="badge bg-primary">@Model.Uloga</span></p>
+
+            <hr />
+
+            <form asp-action="UploadSlike" method="post" enctype="multipart/form-data" class="mt-3">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-secondary">Promijeni profilnu sliku (Lab 9)</label>
+                    <input type="file" name="DatotekaSlike" class="form-control form-control-sm" accept="image/*" required />
+                </div>
+                <button type="submit" class="btn btn-success btn-sm fw-bold rounded-pill px-4">Spasi sliku</button>
+            </form>
+        </div>
+    </div>
+</div>

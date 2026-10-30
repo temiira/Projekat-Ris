@@ -1,0 +1,12 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Screenshot
+
+<h2>Detalji screenshota</h2>
+
+@if (!string.IsNullOrEmpty(Model.Opis))
+{
+    <img src="data:image/png;base64,@Model.Opis" width="400" class="img-fluid" />
+}
+
+<p><strong>Kurs:</strong> @Model.Kurs?.Naziv</p>
+
+<a asp-action="Index" class="btn btn-secondary">Nazad</a>

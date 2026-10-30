@@ -1,0 +1,42 @@
+﻿@model IEnumerable<InformacioniSistemOnlineUcenje.Models.Lekcija>
+
+    @{
+    ViewData["Title"] = "Lekcije";
+    }
+
+    <h2>Lekcije iz kursa: @ViewBag.KursNaziv</h2>
+
+    <p>
+        <a asp-action="Create" asp-route-kursId="@ViewBag.KursId" class="btn btn-success">Dodaj novu lekciju</a>
+        <a asp-controller="Kurs" asp-action="Index" class="btn btn-secondary">Nazad na kurseve</a>
+    </p>
+
+    @if (Model != null && Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Sadržaj</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lekcija in Model)
+            {
+            <tr>
+                <td>@lekcija.Naziv</td>
+                <td>@lekcija.Sadrzaj</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@lekcija.LekcijaID" class="btn btn-warning btn-sm">Uredi</a>
+                    <a asp-action="Delete" asp-route-id="@lekcija.LekcijaID" class="btn btn-danger btn-sm">Obriši</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p><em>Trenutno nema lekcija za ovaj kurs.</em></p>
+}

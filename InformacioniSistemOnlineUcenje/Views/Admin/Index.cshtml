@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
+@{
+    ViewData["Title"] = "Admin Panel - Korisnici";
+}
+@if (TempData["Poruka"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Poruka"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Administratorski panel - Upravljanje korisnicima</h2>
+
+    <table class="table table-striped table-bordered shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Email / Korisničko ime</th>
+                <th>ID Korisnika</th>
+                <th>Akcija</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td><small class="text-muted">@user.Id</small></td>
+                    <td>
+                        <form asp-action="DeleteUser" method="post" onsubmit="return confirm('Da li ste sigurni da želite obrisati ovog korisnika?');" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Obriši</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

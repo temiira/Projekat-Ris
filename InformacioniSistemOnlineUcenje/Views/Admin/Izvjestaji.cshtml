@@ -1,0 +1,57 @@
+﻿@model IEnumerable<InformacioniSistemOnlineUcenje.Models.Upis>
+
+@{
+    ViewData["Title"] = "Izvještaji sistema";
+}
+
+<div class="container mt-4">
+    <h2 class="fw-bold mb-4">📊 Izvještaji i statistika sistema</h2>
+
+    <div class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm bg-light border-0">
+                <h5>Ukupno kurseva</h5>
+                <h3 class="text-primary">@ViewBag.UkupnoKurseva</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm bg-light border-0">
+                <h5>Ukupno korisnika</h5>
+                <h3 class="text-success">@ViewBag.UkupnoKorisnika</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm bg-light border-0">
+                <h5>Ukupno upisa na kurseve</h5>
+                <h3 class="text-warning">@ViewBag.UkupnoUpisa</h3>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mb-3">Detaljan pregled svih upisa u sistemu</h4>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID Upisa</th>
+                <th>Učenik</th>
+                <th>Kurs</th>
+                <th>Datum upisa</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var uv in Model)
+            {
+                <tr>
+                    <td>@uv.UpisID</td>
+                    <td>@(uv.Korisnik?.Ime ?? "N/A") (@(uv.Korisnik?.Email ?? ""))</td>
+                    <td>@(uv.Kurs?.Naziv ?? "N/A")</td>
+                    <td>@uv.DatumUpisa.ToString("dd.MM.yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <button onclick="window.print()" class="btn btn-dark">🖨️ Štampaj / Preuzmi izvještaj (PDF)</button>
+    </div>
+</div>

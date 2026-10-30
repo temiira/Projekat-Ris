@@ -1,0 +1,135 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.NapredakDashboardVM
+
+<style>
+    .course-card {
+        border-radius: 14px;
+        transition: 0.25s;
+        border: none;
+        background: #ffffff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+    .overall-box {
+        background: linear-gradient(135deg, #e7f1ff, #f3f8ff);
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    }
+
+    .progress {
+        background: #e6e6e6;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .last-box {
+        border-radius: 14px;
+        padding: 18px;
+        background: #f6f6f6;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+</style>
+
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-4" style="color:#2d5eff;">
+        📘 Moj napredak
+    </h2>
+
+    @if (!Model.Kursevi.Any())
+    {
+        <div class="alert alert-info shadow-sm p-3">
+            Još niste upisani ni na jedan kurs.
+        </div>
+    }
+    else
+    {
+        <!-- UKUPAN NAPREDAK -->
+        <div class="overall-box mb-4">
+            <h4 class="fw-bold mb-1">
+                ⭐ Ukupan napredak
+            </h4>
+
+            <p class="text-muted mb-3">
+                Završeno @Model.UkupnoZavrseno od @Model.UkupnoLekcija lekcija
+            </p>
+
+            <div class="progress" style="height: 30px;">
+                <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
+                     role="progressbar"
+                     style="width:@Model.ProcenatUkupno%">
+                    @Model.ProcenatUkupno.ToString("0")%
+                </div>
+            </div>
+        </div>
+
+        <!-- KURSEVI -->
+        <div class="row">
+            @foreach (var kurs in Model.Kursevi)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card course-card h-100">
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-dark mb-2">
+                                🎓 @kurs.NazivKursa
+                            </h5>
+
+                            <p class="text-muted mb-2">
+                                👨‍🏫 <strong>@kurs.Nastavnik</strong>
+                            </p>
+
+                            <p class="mb-1">
+                                📘 @kurs.ZavrsenoLekcija / @kurs.UkupnoLekcija lekcija završeno
+                            </p>
+
+                            <div class="progress mb-3" style="height: 22px;">
+                                <div class="progress-bar bg-success"
+                                     role="progressbar"
+                                     style="width:@kurs.Procenat%">
+                                    @kurs.Procenat.ToString("0")%
+                                </div>
+                            </div>
+
+                            <a asp-controller="Kurs"
+                               asp-action="Details"
+                               asp-route-id="@kurs.KursID"
+                               class="btn btn-outline-primary btn-sm">
+                                ➤ Otvori kurs
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- ZADNJA LEKCIJA -->
+        @if (Model.ZadnjaLekcijaNaziv != null)
+        {
+            <div class="last-box mt-4">
+                <h5 class="fw-bold mb-2">📌 Zadnje čitana lekcija</h5>
+
+                <p class="mb-1">
+                    <strong>@Model.ZadnjaLekcijaNaziv</strong>
+                    <span class="text-muted">u kursu</span>
+                    <em>@Model.ZadnjiKursNaziv</em>
+                </p>
+
+                <small class="text-muted">
+                    Vrijeme: @Model.ZadnjeVrijeme
+                </small>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<InformacioniSistemOnlineUcenje.Models.Upis>
+
+@{
+    ViewData["Title"] = "Prijavljeni učenici";
+}
+
+<div class="container mt-4" style="max-width: 800px;">
+    <h2 class="fw-bold mb-3">Prijavljeni učenici na kurs: <span class="text-primary">@ViewBag.NazivKursa</span></h2>
+
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm mb-4">← Nazad na kurseve</a>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Trenutno nema prijavljenih učenika na ovom kursu.</div>
+    }
+    else
+    {
+        <table class="table table-striped shadow-sm rounded">
+            <thead class="table-dark">
+                <tr>
+                    <th>Ime i prezime</th>
+                    <th>Email</th>
+                    <th>Datum upisa</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var upis in Model)
+                {
+                    <tr>
+                        <td>@(upis.Korisnik?.Ime ?? "Nepoznato")</td>
+                        <td>@(upis.Korisnik?.Email ?? "Nepoznato")</td>
+                        <td>@upis.DatumUpisa.ToString("dd.MM.yyyy HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

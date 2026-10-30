@@ -1,0 +1,14 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Napredak
+
+<h2>Obriši napredak</h2>
+<p>Da li ste sigurni da želite obrisati ovaj napredak?</p>
+
+<p><strong>Korisnik:</strong> @Model.Korisnik.Ime</p>
+<p><strong>Kurs:</strong> @Model.Kurs.Naziv</p>
+<p><strong>Procenat:</strong> @Model.Procenat %</p>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="NapredakID" />
+    <button class="btn btn-danger">Obriši</button>
+    <a asp-action="Index" class="btn btn-secondary">Nazad</a>
+</form>

@@ -1,0 +1,42 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Lekcija
+@{
+    ViewData["Title"] = "Detalji lekcije";
+    bool moze = ViewBag.MozeOznaciti ?? false;
+    bool procitano = ViewBag.Procitano ?? false;
+}
+
+<div class="card shadow-sm p-4">
+    <h2 class="mb-3 text-primary">@Model.Naziv</h2>
+    <p class="text-muted">Kurs: @Model.Kurs?.Naziv</p>
+
+    @if (!string.IsNullOrEmpty(Model.SlikaBase64))
+    {
+        <div class="mb-3">
+            <img src="data:image/png;base64,@Model.SlikaBase64" alt="Slika lekcije" class="img-fluid rounded" />
+        </div>
+    }
+
+    <div class="mb-4">
+        <h5>Sadržaj lekcije</h5>
+        <p>@Model.Sadrzaj</p>
+    </div>
+
+    <p><strong>Datum dodavanja:</strong> @(Model.DatumDodavanja.HasValue? Model.DatumDodavanja.Value.ToString("dd.MM.yyyy HH:mm") : "Nije naveden")</p>
+
+    @if (moze)
+    {
+        <form asp-action="Procitano" method="post" class="mt-3">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.LekcijaID" />
+            <button type="submit" class="btn btn-success">✅ Označi kao pročitano</button>
+        </form>
+    }
+    else if (procitano)
+    {
+        <div class="alert alert-success mt-3">Ova lekcija je već označena kao pročitana ✅</div>
+    }
+
+    <div class="mt-4">
+        <a asp-controller="Kurs" asp-action="Details" asp-route-id="@Model.KursID" class="btn btn-secondary">Nazad na kurs</a>
+    </div>
+</div>

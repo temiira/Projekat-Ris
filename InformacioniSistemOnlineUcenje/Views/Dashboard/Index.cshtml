@@ -1,0 +1,64 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Korisnik
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Dobrodošli, @Model.Ime!</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm text-center">
+                <img src="@(Model.ProfilnaSlikaBase64 != null
+                                                  ? $"data:image/png;base64,{Model.ProfilnaSlikaBase64}"
+                                                  : "/images/default-avatar.png")"
+                     class="img-fluid rounded-circle mb-3"
+                     style="width:150px;height:150px;object-fit:cover;" />
+
+                <h4>@Model.Ime @Model.Prezime</h4>
+                <p class="text-muted">@Model.Uloga</p>
+                <p class="text-muted small">Registrovan: @Model.DatumRegistracije.ToShortDateString()</p>
+
+                <a asp-controller="Account" asp-action="EditProfile"
+                   class="btn btn-primary w-100 mt-3">Uredi profil</a>
+
+                <a asp-controller="Account" asp-action="Logout"
+                   class="btn btn-danger w-100 mt-2">Odjava</a>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            @if (Model.Uloga == "Ucenik" || Model.Uloga == "Ucenik")
+            {
+                <div class="card p-3 shadow-sm mb-3">
+                    <h5>Moji kursevi</h5>
+                    <a asp-controller="Upis" asp-action="MojiKursevi" class="btn btn-outline-primary mt-2">
+                        Pregledaj kurseve
+                    </a>
+                </div>
+            }
+
+            @if (Model.Uloga == "Nastavnik")
+            {
+                <div class="card p-3 shadow-sm mb-3">
+                    <h5>Moji kursevi (predajem)</h5>
+                    <a asp-controller="Kurs" asp-action="Index" class="btn btn-outline-warning mt-2">
+                        Pregledaj kurseve
+                    </a>
+                </div>
+            }
+
+            @if (Model.Uloga == "Admin")
+            {
+                <div class="card p-3 shadow-sm mb-3">
+                    <h5>Administracija</h5>
+                    <a asp-controller="Korisnik" asp-action="Index" class="btn btn-outline-danger mt-2">
+                        Upravljanje korisnicima
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

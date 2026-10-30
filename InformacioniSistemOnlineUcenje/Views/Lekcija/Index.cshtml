@@ -1,0 +1,42 @@
+﻿@model IEnumerable<InformacioniSistemOnlineUcenje.Models.Lekcija>
+
+<h2>Sve lekcije</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Dodaj lekciju</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Naslov</th>
+            <th>Sadržaj</th>
+            <th>Kurs</th>
+            <th>Slika</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Naziv</td>
+                <td>@item.Sadrzaj</td>
+                <td>@item.Kurs.Naziv</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.SlikaBase64))
+                    {
+                        <img src="data:image/png;base64,@item.SlikaBase64" width="120" style="border-radius:5px;" />
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.LekcijaID">Uredi</a> |
+                    <a asp-action="Details" asp-route-id="@item.LekcijaID">Detalji</a> |
+                    <a asp-action="Delete" asp-route-id="@item.LekcijaID">Obriši</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

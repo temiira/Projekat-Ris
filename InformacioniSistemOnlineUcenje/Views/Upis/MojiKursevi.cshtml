@@ -1,0 +1,56 @@
+﻿@model List<InformacioniSistemOnlineUcenje.Models.Upis>
+
+@{
+    ViewData["Title"] = "Moji kursevi";
+    var ukupnoLekcija = ViewBag.UkupnoLekcija as Dictionary<int, int> ?? new Dictionary<int, int>();
+    var procitanoLekcija = ViewBag.ProcitanoLekcija as Dictionary<int, int> ?? new Dictionary<int, int>();
+}
+
+<h2>MOJI KURSEVI</h2>
+
+@if (Model == null || Model.Count == 0)
+{
+    <p class="text-muted">Niste upisani ni na jedan kurs.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Naziv kursa</th>
+                <th>Opis</th>
+                <th>Nastavnik</th>
+                <th>Napredak</th>
+                <th>Detalji</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var upis in Model)
+            {
+                int kursId = upis.KursID;
+                int ukupno = ukupnoLekcija.ContainsKey(kursId) ? ukupnoLekcija[kursId] : 0;
+                int zavrseno = procitanoLekcija.ContainsKey(kursId) ? procitanoLekcija[kursId] : 0;
+                int procenat = ukupno > 0 ? (zavrseno * 100) / ukupno : 0;
+
+                <tr>
+                    <td><strong>@upis.Kurs?.Naziv</strong></td>
+                    <td>@upis.Kurs?.Opis</td>
+                    <td>@upis.Kurs?.Nastavnik?.Ime @upis.Kurs?.Nastavnik?.Prezime</td>
+                    <td style="width: 25%;">
+                        <div class="d-flex justify-content-between mb-1" style="font-size: 0.9rem;">
+                            <span>@zavrseno / @ukupno lekcija</span>
+                            <span><strong>@procenat%</strong></span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: @procenat%;" aria-valuenow="@procenat" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <a asp-controller="Kurs" asp-action="Details" asp-route-id="@kursId"
+                           class="btn btn-primary btn-sm">Detalji</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

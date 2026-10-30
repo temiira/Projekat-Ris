@@ -1,0 +1,27 @@
+﻿@model IEnumerable<InformacioniSistemOnlineUcenje.Models.Screenshot>
+
+@{
+    ViewData["Title"] = "Galerija screenshotova";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark">🖼️ Screenshotovi kurseva</h2>
+        <a asp-action="Create" class="btn btn-primary fw-bold">+ Dodaj novi screenshot</a>
+    </div>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <img src="@Url.Action("PrikaziSliku", "Screenshot", new { id = item.ID })"
+                         class="card-img-top" alt="Screenshot" style="height: 200px; object-fit: cover;" />
+                    <div class="card-body">
+                        <h6 class="fw-bold text-muted">Kurs: @item.Kurs?.Naziv</h6>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

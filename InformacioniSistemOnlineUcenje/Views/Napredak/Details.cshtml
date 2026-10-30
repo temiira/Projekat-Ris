@@ -1,0 +1,10 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Napredak
+
+<h2>Detalji napretka</h2>
+
+<p><strong>Korisnik:</strong> @Model.Korisnik.Ime</p>
+<p><strong>Kurs:</strong> @Model.Kurs.Naziv</p>
+<p><strong>Procenat:</strong> @Model.Procenat %</p>
+<p><strong>Datum ažuriranja:</strong> @Model.DatumAzuriranja</p>
+
+<a asp-action="Index" class="btn btn-secondary">Nazad</a>

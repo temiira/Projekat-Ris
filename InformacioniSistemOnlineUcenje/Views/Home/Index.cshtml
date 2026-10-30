@@ -1,0 +1,179 @@
+﻿@{
+    ViewData["Title"] = "Početna";
+}
+
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #eef3ff, #f8faff);
+        padding: 80px 0;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .hero-title {
+        font-size: 2.7rem;
+        font-weight: 800;
+        color: #2d5eff;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: #5c5c5c;
+        line-height: 1.6;
+    }
+
+    .feature-card {
+        border-radius: 14px;
+        padding: 25px;
+        background: #fff;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+        transition: .25s;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+    .category-box {
+        border-radius: 14px;
+        background: #f1f5ff;
+        padding: 18px;
+        text-align: center;
+        transition: .25s;
+        cursor: pointer;
+    }
+
+        .category-box:hover {
+            background: #e3ecff;
+            transform: translateY(-3px);
+        }
+</style>
+
+<div class="container mt-5">
+
+    <div class="hero-section text-center mb-5">
+        <h1 class="hero-title mb-3">
+            🎓 Dobro došli na <span style="color:#1a3cff;">Online Učenje</span>
+        </h1>
+
+        <p class="hero-subtitle mb-4">
+            Učite brzo, efikasno i od najboljih nastavnika.
+            Prijavi se i započni svoj put znanja već danas!
+        </p>
+
+        <!-- Dinamički prikaz zavisno od uloge i prijave -->
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="mt-4">
+                <p class="text-success fw-bold fs-5 mb-3">Prijavljeni ste kao: @User.Identity.Name</p>
+                <a asp-controller="Kurs" asp-action="Index" class="btn btn-dark btn-lg px-4 me-2">
+                    Pregledaj kurseve
+                </a>
+
+                @* Prikazuj "Moji kursevi" SAMO ako korisnik NIJE administrator *@
+                @if (!User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Upis" asp-action="MojiKursevi" class="btn btn-outline-dark btn-lg px-4">
+                        Moji kursevi
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="mt-4">
+                <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg px-5 me-2">
+                    Prijava
+                </a>
+
+                <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary btn-lg px-5">
+                    Registracija
+                </a>
+            </div>
+        }
+    </div>
+
+    <h3 class="fw-bold text-center mb-4">Zašto odabrati naš sistem?</h3>
+
+    <div class="row mb-5">
+        <div class="col-md-4 mb-3">
+            <div class="feature-card">
+                <h5 class="fw-bold mb-2">⏱ Uči vlastitim tempom</h5>
+                <p class="text-muted">
+                    Lekcije dostupne 24/7. Završavaj gradivo kad tebi odgovara.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="feature-card">
+                <h5 class="fw-bold mb-2">👨‍🏫 Stručni nastavnici</h5>
+                <p class="text-muted">
+                    Uči od kvalifikovanih predavača sa iskustvom.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="feature-card">
+                <h5 class="fw-bold mb-2">📊 Praćenje napretka</h5>
+                <p class="text-muted">
+                    Moderan dashboard ti prikazuje tvoj tačan napredak.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="fw-bold text-center mb-4">Popularne kategorije kurseva</h3>
+
+    <div class="row mb-5">
+        <div class="col-md-3 mb-3">
+            <div class="category-box">
+                💻 Programiranje
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="category-box">
+                📐 Matematika
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="category-box">
+                🌍 Jezici
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="category-box">
+                📊 Biznis & Ekonomija
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5 justify-content-center">
+        <div class="col-md-10">
+            <div class="bg-white p-4 rounded-4 shadow-sm border-0">
+                <h4 class="fw-bold text-dark mb-3">📍 Gdje se nalazimo? (Sjedište platforme)</h4>
+                <p class="text-muted small mb-3">Ukoliko imate potrebu za polaganjem ispita uživo ili konsultacijama, posjetite nas na našoj zvaničnoj lokaciji.</p>
+                <div class="ratio ratio-21x9 rounded-3 overflow-hidden border">
+                    <iframe src="https://maps.google.com/maps?q=Sarajevo&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-5">
+        <h4 class="fw-bold mb-3">Spremni za učenje?</h4>
+        <a asp-controller="Kurs" asp-action="Index" class="btn btn-success btn-lg px-5">
+            Pogledaj sve kurseve
+        </a>
+    </div>
+
+</div>

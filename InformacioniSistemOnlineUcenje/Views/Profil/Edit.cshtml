@@ -1,0 +1,72 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Korisnik
+@{
+    ViewData["Title"] = "Uredi Profil";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4">
+
+                    <h3 class="text-center fw-bold mb-4">Uredi profil</h3>
+
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+                        <div class="text-center mb-3">
+                            @if (Model.ProfilnaSlikaBase64 != null)
+                            {
+                                <img src="data:image/png;base64,@Model.ProfilnaSlikaBase64"
+                                     class="rounded-circle shadow"
+                                     style="width: 130px; height: 130px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center shadow"
+                                     style="width: 130px; height: 130px; font-size: 40px;">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Ime</label>
+                            <input asp-for="Ime" class="form-control" />
+                            <span asp-validation-for="Ime" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Prezime</label>
+                            <input asp-for="Prezime" class="form-control" />
+                            <span asp-validation-for="Prezime" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Nova slika (opcionalno)</label>
+                            <input type="file" name="slikaFile" class="form-control" accept="image/*" />
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("Index", "Profil")" class="btn btn-outline-secondary px-4">
+                                Nazad
+                            </a>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                Spremi izmjene
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Kurs
+
+<h2>Uredi kurs</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="KursID" />
+
+    <div class="form-group">
+        <label>Naziv</label>
+        <input asp-for="Naziv" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Opis</label>
+        <textarea asp-for="Opis" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Nastavnik</label>
+        <select asp-for="NastavnikID" class="form-control" asp-items="ViewBag.Nastavnici"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sačuvaj</button>
+    <a asp-action="Index" class="btn btn-secondary">Nazad</a>
+</form>

@@ -1,0 +1,87 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Kurs
+
+@{
+    ViewData["Title"] = Model.Naziv ?? "Detalji kursa";
+}
+
+<div class="container mt-4">
+    <a asp-action="Index" class="text-decoration-none text-muted mb-3 d-inline-block">&larr; Nazad na katalog</a>
+
+    <div class="card p-4 shadow-sm">
+        <h2>@Model.Naziv</h2>
+        <p class="text-muted">@Model.Opis</p>
+        <p><strong>Autor ID:</strong> @Model.NastavnikID</p>
+
+        <hr class="my-4" />
+
+        @if (ViewBag.JeNastavnikIliAdmin == true)
+        {
+            @* 👨‍🏫 Prikaz za NASTAVNIKA i ADMINA *@
+            <div class="alert alert-info">
+                <h5>Mogućnosti nastavnika</h5>
+                <p>Vi ste prijavljeni kao nastavnik/admin na ovom kursu. Možete dodavati nove lekcije, uređivati sadržaj ili pregledati upisane učenike.</p>
+            </div>
+
+            <div class="d-flex gap-2 mb-4 flex-wrap">
+                <a asp-controller="Lekcija" asp-action="Create" class="btn btn-primary">➕ Dodaj novu lekciju</a>
+                <a asp-action="PrikazUcenika" asp-route-id="@Model.KursID" class="btn btn-warning">👥 Pregled prijavljenih učenika</a>
+            </div>
+
+            <h4 class="mb-3">Lekcije u ovom kursu:</h4>
+            @if (Model.Lekcije != null && Model.Lekcije.Count > 0)
+            {
+                <ul class="list-group">
+                    @foreach (var lekcija in Model.Lekcije)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a asp-controller="Lekcija" asp-action="Details" asp-route-id="@lekcija.LekcijaID">
+                                @lekcija.Naziv
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted">Još uvijek nema dodanih lekcija.</p>
+            }
+        }
+        else
+        {
+            @* 🎓 Prikaz za UČENIKA *@
+            @if (ViewBag.Upisan == true)
+            {
+                <div class="alert alert-success">Već ste upisani na ovaj kurs. Možete pristupiti lekcijama!</div>
+
+                <h4 class="mt-4 mb-3">Lekcije:</h4>
+                @if (Model.Lekcije != null && Model.Lekcije.Count > 0)
+                {
+                    <ul class="list-group">
+                        @foreach (var lekcija in Model.Lekcije)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a asp-controller="Lekcija" asp-action="Details" asp-route-id="@lekcija.LekcijaID">
+                                    @lekcija.Naziv
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">Nastavnik još nije dodao lekcije na ovaj kurs.</p>
+                }
+            }
+            else
+            {
+                <div class="text-center py-3">
+                    <p class="text-muted mb-3">Nisi upisan na ovaj kurs.</p>
+                    <form asp-controller="Upis" asp-action="UpisiKurs" method="post" class="d-inline">
+                        <input type="hidden" name="kursId" value="@Model.KursID" />
+                        <button type="submit" class="btn btn-dark btn-lg">UPISI OVAJ KURS</button>
+                    </form>
+                </div>
+            }
+        }
+    </div>
+</div>

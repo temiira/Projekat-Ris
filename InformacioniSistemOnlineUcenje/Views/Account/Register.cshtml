@@ -1,0 +1,66 @@
+﻿@model InformacioniSistemOnlineUcenje.Models.Korisnik
+
+@{
+    ViewData["Title"] = "Registracija";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 shadow p-4 bg-white" style="border-radius: 12px;">
+            <h2 class="fw-bold mb-4 text-center text-primary">📝 Kreiraj novi račun</h2>
+
+            <form asp-controller="Account" asp-action="Register" method="post">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger pb-0">
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    </div>
+                }
+
+                <div class="form-group mb-3">
+                    <label class="form-label fw-bold">Ime</label>
+                    <input asp-for="Ime" class="form-control" placeholder="Unesite vaše ime" required />
+                    <span asp-validation-for="Ime" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label fw-bold">Prezime</label>
+                    <input asp-for="Prezime" class="form-control" placeholder="Unesite vaše prezime" required />
+                    <span asp-validation-for="Prezime" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label fw-bold">Email adresa</label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="ime.prezime@email.com" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label fw-bold">Lozinka</label>
+                    <input asp-for="Lozinka" type="password" class="form-control" placeholder="Min. 6 karaktera" required />
+                    <span asp-validation-for="Lozinka" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="form-label fw-bold">Uloga u sistemu</label>
+                    <select asp-for="Uloga" class="form-control form-select" required>
+                        <option value="">-- Odaberite ulogu --</option>
+                        <option value="Ucenik">Učenik</option>
+                        <option value="Nastavnik">Nastavnik</option>
+                    </select>
+                    <span asp-validation-for="Uloga" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Registruj se</button>
+
+                <p class="text-center mt-3 mb-0 text-muted small">
+                    Već imate račun? <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Prijavite se ovdje</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
